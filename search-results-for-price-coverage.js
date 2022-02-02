@@ -118,15 +118,6 @@ function plural(ms, msAbs, n, name) {
 }
 
 
-
-
-
-
-
-
-
-var hotelId = "18145247091935012804H3922879677499527945";
-
 function fromNow(interval) {
     return new Date(Date.now() + ms(interval)).getTime();
 }
@@ -137,14 +128,15 @@ function getCheckInAt(interval) {
     return checkIn;
 }
 
-db.getCollection('searchResults').find(
-    {
-        'search.hotelId': hotelId,
-        'search.nights': { $lte: 7 },
-        'checkInAt': { $gte: getCheckInAt('1d'), $lte: getCheckInAt('90d') },
-        'result.crawledAt': { $gte: fromNow('-14d') },
-    }
-).count()
+
+
+
+
+
+
+var hotelId = "18145247091935012804H3922879677499527945";
+
+db.getCollection('priceCoverages').find({hotelId: hotelId});
 
 db.getCollection('searchResults').find(
     {
@@ -168,30 +160,5 @@ db.getCollection('searchResults').find(
             },
         ],
     }
-).count()
+).count()/630;
 
-db.getCollection('searchResults').find(
-    {
-        'search.hotelId': hotelId,
-        'search.nights': { $lte: 7 },
-        $or: [
-            {
-                'result.crawledAt': { $gt: fromNow('-6h') },
-            },
-            {
-                'checkInAt': { $gte: getCheckInAt('3d'), $lte: getCheckInAt('90d') },
-                'result.crawledAt': { $gte: fromNow('-1d'), $lt: fromNow('-6h') },
-            },
-            {
-                'checkInAt': { $gte: getCheckInAt('7d'), $lte: getCheckInAt('90d') },
-                'result.crawledAt': { $gte: fromNow('-3d'), $lt: fromNow('-1d') },
-            },
-            {
-                'checkInAt': { $gte: getCheckInAt('30d'), $lte: getCheckInAt('90d') },
-                'result.crawledAt': { $gte: fromNow('-7d'), $lt: fromNow('-3d') },
-            },
-        ],
-    }
-).count()/630
-
-db.getCollection('priceCoverages').find({hotelId: hotelId})
