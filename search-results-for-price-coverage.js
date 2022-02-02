@@ -144,7 +144,7 @@ db.getCollection('searchResults').find(
         'search.nights': { $lte: 7 },
         $or: [
             {
-                'result.crawledAt': { $gt: fromNow('-6h') },
+                'result.crawledAt': { $gte: fromNow('-6h') },
             },
             {
                 'checkInAt': { $gte: getCheckInAt('3d'), $lte: getCheckInAt('90d') },
